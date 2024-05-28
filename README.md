@@ -98,3 +98,302 @@ Observing the assembly instructions, it is noticed that <span style="color:yello
 
 ![sum1to100f](./Task%201/Screenshots/17_1to100f.png)  
 
+<br>
+
+## Task 2
+
+### RISCV Instruction Set Architecture
+
+RISC V Instructions Set Architecture offers two different levels of access to the system hardware: **Unprivileged mode** and **Privileged mode**.
+
+The three modes of RISC V ISA are **User mode**, **Machine mode** and **Supervisor mode**.
+
+**User mode** is a type of Unprivileged mode which provides least or limited access to the system's hardware. It provides a safe environment for user applications to run, restricting them from changing critical system resources.   
+
+The other two modes: **Machine mode** and **Supervisor mode** are types of Privileged Mode. In Privileged mode, privileged set of instructions can be run.   
+
+Machine mode provides unrestricted access to the hardware for firmware or low-level system management.   
+
+Supervisor mode is used to manage system resources and provide an execution environment for user applications, typically used by the operating system kernel.  
+
+<br>
+
+RISC-V ISA is defined as a base integer ISA. The base consists of a minimal set of instructions sufficient for compilers, assemblers, linkers and operating systems. There are currently four base ISAs: **RV32I**, **RV32E**, **RV64I** and **RV64E**.
+
+![base version](./Task%202/Baseversion.png)
+
+**RV32E** and **RV64E** are reduced subsets of **RV32I** and **RV64I** respectively. Each base integer instruction set is characterized by the width of the integer registers and the corresponding size of the address space and by the number of integer registers. There are two primary base integer variants, RV32I and RV64I.  
+
+Each base ISAs can be extended using extensions for added functionality. Some extensions are:  
+- **M** Extension: Integer multiply/divide.
+-  **A** Extension: Atomic operations.
+- **F** Extension: Single-precision floating-point.
+- **D** Extension: Double-precision floating-point.
+- **C** Extension: Compressed 16-bit instructions.  
+
+The steps involved in executing a given instructions are:
+
+1. **Instruction Fetch**(IF): The instruction is fetched from memory using the address provided by the program counter (PC).
+
+2. **Instruction Decode** (ID): The instruction is decoded to determine the operation to be performed and the operands involved.
+
+3. **Execution** (EX): The actual operation specified by the instruction is performed. This could be an arithmetic operation, a logical operation, an address calculation for memory access, etc.Branch Evaluation: If the instruction is a branch, the branch condition is evaluated to determine the next PC value.
+
+4. **Memory Access** (MEM): the memory is accessed for load/store operations. Loads read data from memory into a register, while stores write data from a register to memory.
+5. **Write Back** (WB): The result is written back to the destination register.  
+
+<br>
+
+In the base **RV32I** ISA, there are six instruction formats, four core instruction formats:  
+1. R
+2. I
+3. S
+4. U  
+
+![core instruction formats](./Task%202/Core%20instructions.png)
+
+And two immediate encoding variants based on the handling of immediates:
+
+5. B (variant of S)
+6. J (variant of U)  
+
+### R-Type Instructions
+
+The R-type Instructions are used for integer register-register functions, i.e., used for arithmetic and logical operations that do not involve an immediate value. The R-Type instruction format is:
+
+![R type](./Task%202/R.png)  
+
+Different R-Type instructions are :
+
+![R insctructions](./Task%202/R_ins.png)
+
+### I-Type Instructions
+
+The I-Type instructions use a 12-bit immediate value and are typically used for operations like arithmetic with an immediate value, loads, and certain system instructions. The I-Type instruction format is:  
+
+![I-type](./Task%202/I.png)
+
+Defferent I-type instructions are:
+
+- Arithmetic type instructions
+
+![I arithmetic](./Task%202/I_a_ins.png)
+
+- Load type instructions
+
+![I load](./Task%202/I_load_ins.png)
+
+### S-Type Instructions
+
+The S-type instructions are mainly used for store operations. The 12 bits immediate is disjointed and separated in 5 bits lower immediate and 7 bits upper immediate. The upper immediate is used to offset the rs2 register. The S-Type instruction format is:
+
+![S type](./Task%202/S.png)
+
+S-type instructions are:
+
+![S instructions](./Task%202/S_ins.png)
+
+### B-Type Instructions
+
+B-Type instructions are used for conditional branching. B-Type instruction is a immediate_encoding variant of S-type. The immediate is arranged in a different way in B-type. The source registers, funct and opcode locations are same as S-Type.
+
+![B-type](./Task%202/B.png)
+
+B-type instructions are:
+
+![B instructions](./Task%202/B_ins.png)
+
+### U-Type Instructions
+
+U-Type instructions are used for instructions that set an upper 20-bit immediate value, such as LUI (Load Upper Immediate) and AUIPC (Add Upper Immediate to PC). U-Type instructions are used to handle large constant immediates.
+
+![U-Type](./Task%202/U.png)
+
+U-Type instructions are:
+
+![U instructions](./Task%202/U_ins.png)
+
+### J-Type instructions
+
+J-Type instructions are used for jump operations with a 20-bit immediate value. J-Type instruction is an immediate_encoding variant of U-type. The immediate is arranged in a different way in J-type from U-type. The location of opcode and destination register is same as U-Type.
+
+![J-type](./Task%202/J.png)
+
+J-Type instruction:
+
+![J instruction](./Task%202/J_ins.png)
+
+## `To Identify Instruction Type`
+
+**Identify various RISC-V instruction type (R, I, S, B, U, J) and exact 32-bit instruction code in the instruction type format for below RISC-V instructions**  
+
+- **ADD r6, r2, r1**  
+    The ADD is a R-Type instruction. The base format is `add rd, rs1, rs2`. It adds the value stored in rs1 and rs2, and stores it in rd. So, in above instruction-
+
+    * opcode for `add`: 0110011
+    * funct3 for `add`: 000
+    * funct7 for `add`: 0000000
+    * rd: 00110(r6)
+    * rs1: 00001(r1) 
+    * rs2: 00010(r2)
+
+    The full 32 bits instruction is `0000000 00001 00010 000 00110 0110011`
+    
+- **SLL r15, r1, r2**  
+    The SLL (Shift Left Logical) is R-Type instruction. The base format is `sll rd, rs1, rs2`. It shifts the value stored in rs1 left by the number of bit positions specified in rs2, and stores the result in rd. So, in the above instruction:
+
+    * opcode for `sll`: 0110011
+    * funct3 for `sll`: 001
+    * funct7 for `sll`: 0000000
+    * rd: 01111 (r15)
+    * rs1: 00001 (r1)
+    * rs2: 00010 (r2)
+
+The full 32 bits instruction is `0000000 00010 00001 001 01111 0110011`.  
+
+- **SUB r7, r1, r2**  
+    The SUB instruction is R-Type instruction. The base format is `sub rd, rs1, rs2`. It subtracts the value stored in `rs2` from the value stored in `rs1`, and stores the result in `rd`. So, in the above instruction:
+
+    * opcode for `sub`: 0110011
+    * funct3 for `sub`: 000
+    * funct7 for `sub`: 0100000
+    * rd: 00111 (r7)
+    * rs1: 00001 (r1)
+    * rs2: 00010 (r2)
+
+The full 32 bits instruction is `0100000 00010 00001 000 00111 0110011`.  
+
+- **AND r8, r1, r3**  
+    The AND is R-Type instruction. The base format is `and rd, rs1, rs2`. It performs a bitwise AND operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
+
+    * opcode for and: 0110011
+    * funct3 for and: 111
+    * funct7 for and: 0000000
+    * rd: 01000
+    * rs1: 00001
+    * rs2: 00011  
+    
+    The full 32 bits instruction is `0000000 00011 00001 111 01000 0110011`.
+
+- **OR r9, r2, r5**  
+    The OR is R-Type instruction. The base format is `or rd, rs1, rs2`. It performs a bitwise OR operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
+
+    * opcode for `or`: 0110011
+    * funct3 for `or`: 110
+    * funct7 for `or`: 0000000
+    * rd: 01001
+    * rs1: 00010
+    * rs2: 00101
+
+The full 32 bits instruction is `0000000 00101 00010 110 01001 0110011`  
+
+- **XOR r10, r1, r4**  
+    The XOR is R-Type instruction. The base format is `xor rd, rs1, rs2`. It performs a bitwise XOR operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
+
+    * opcode for `xor`: 0110011
+    * funct3 for `xor`: 100
+    * funct7 for `xor`: 0000000
+    * rd: 01010
+    * rs1: 00001
+    * rs2: 00100
+
+The full 32 bits instruction is `0000000 00100 00001 100 01010 0110011`  
+
+- **SLT r11, r2, r4**  
+    The SLT (Set Less Than) is R-Type instruction. The base format is `slt rd, rs1, rs2`. It sets `rd` to 1 if the value in `rs1` is less than the value in `rs2`, otherwise it sets `rd` to 0. So, in the above instruction:
+
+    * opcode for `slt`: 0110011
+    * funct3 for `slt`: 010
+    * funct7 for `slt`: 0000000
+    * rd: 01011
+    * rs1: 00010
+    * rs2: 00100
+
+The full 32 bits instruction is `0000000 00100 00010 010 01011 0110011`  
+
+- **ADDI r12, r4, 5**  
+    The ADDI (Add Immediate) is an I-Type instruction. The base format is `addi rd, rs1, imm`. It adds the immediate value `imm` to the value in `rs1` and stores the result in `rd`. So, in the above instruction:
+
+    * opcode for `addi`: 0010011
+    * funct3 for `addi`: 000
+    * imm (immediate): 000000000101 (12-bit immediate for the value 5)
+    * rd: 01100
+    * rs1: 00100
+
+The full 32 bits instruction is `000000000101 00100 000 01100 0010011`  
+
+- **SW r3, r1, 2**  
+    The SW (Store Word) is S-Type instruction. The base format is `sw rs2, imm(rs1)`. It stores the value in `rs2` at the memory address obtained by adding the immediate value `imm` to the value in `rs1`. So, in the above instruction:
+
+* opcode for `sw`: 0100011
+* funct3 for `sw`: 010
+* imm (immediate): 000000000010 (12-bit immediate for the value 2)
+* rs1: 00001
+* rs2: 00011
+
+The 12-bit immediate value is split into two parts:
+- imm[11:5] (7 bits) = 0000000
+- imm[4:0] (5 bits) = 00010
+
+The full 32 bits instruction is `0000000 00011 00001 010 00010 0100011`  
+
+- **SRL r16, r14, r2**  
+    The SRL (Shift Right Logical) is R-Type instruction. The base format is `srl rd, rs1, rs2`. It performs a logical right shift on the value in `rs1` by the number of positions specified in `rs2` and stores the result in `rd`. So, in the above instruction:
+
+* opcode for `srl`: 0110011
+* funct3 for `srl`: 101
+* funct7 for `srl`: 0000000
+* rd: 10000 (r16)
+* rs1: 01110 (r14)
+* rs2: 00010 (r2)
+
+The full 32 bits instruction is `0000000 00010 01110 101 10000 0110011`  
+
+- **BNE r0, r1, 20**  
+    The BNE (Branch if Not Equal) is a B-Type instruction. The base format is `bne rs1, rs2, imm`. It branches to the address offset by `imm` from the current PC if the values in `rs1` and `rs2` are not equal. So, in the above instruction:
+
+    * opcode for `bne`: 1100011
+    * funct3 for `bne`: 001
+    * imm (immediate): 20 (which is 0b000000001010 in binary)
+    * rs1: 00000 (r0)
+    * rs2: 00001 (r1)
+
+Given `imm = 20` (decimal) which is `000000001010` (binary), the 12-bit immediate value is split into the following parts for B-Type instructions:
+- imm[12] = 0
+- imm[10:5] = 000010
+- imm[4:1] = 1010
+- imm[11] = 0
+
+The full 32 bits instruction is `0000000 00001 00000 001 10100 1100011`.
+
+- **BEQ r0, r0, 15**  
+    The BEQ (Branch if Equal) is B-Type instruction. The base format is `beq rs1, rs2, imm`. It branches to the address offset by `imm` from the current PC if the values in `rs1` and `rs2` are equal. So, in the above instruction:
+
+    * opcode for `beq`: 1100011
+    * funct3 for `beq`: 000
+    * imm (immediate): 15 (which is 0b0000000001111 in binary)
+    * rs1: 00000 (r0)
+    * rs2: 00000 (r0)
+
+Given `imm = 15` (decimal) which is `0000000001111` (binary), the 13-bit immediate value is split into the following parts for B-Type instructions:
+- imm[12] = 0
+- imm[10:5] = 000000
+- imm[4:1] = 1111
+- imm[11] = 0
+
+The full 32 bits instruction is `0000000 00000 00000 000 01111 1100011`.  
+
+- **LW r13, r1, 2**  
+    LW (Load Word) is I-Type instruction. The base format is `lw rd, offset(rs1)`. It loads a 32-bit word from memory, where the memory address is calculated by adding the `offset` to the value in `rs1`, and stores it in `rd`. So, in the above instruction:
+
+    * opcode for `lw`: 0000011
+    * funct3 for `lw`: 010
+    * imm (immediate): 2 (which is 0000000000010 in binary)
+    * rd: 01101 (r13)
+    * rs1: 00001 (r1)
+
+The full 32 bits instruction is `000000000010 00001 010 01101 0000011`.
+
+
+
+
