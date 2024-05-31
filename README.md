@@ -1,6 +1,11 @@
 # VSDSquadron mini Internship Cohort 20th May 2024
 
-## Task 1
+<details>
+
+<summary><mark>Task 1</mark>: Testing riscv gnu tools and identifying assembly codes coressponding to the c code </summary>
+
+## Task 1 
+
 
 1. Succesfully installed the provided vdi file on Virtualbox following the given instructions. All the required softwares and packages were installed: gnu risc-v toolchain
 2. Installed vscode using `sudo snap install code` to edit the c codes. 
@@ -100,7 +105,15 @@ Observing the assembly instructions, it is noticed that <span style="color:yello
 
 <br>
 
+</details>
+
+<br>
+
+<details>
+
 ## Task 2
+
+<summary><mark>Task 2</mark>: Detailed study of RISCV ISA and identifying the 32 bit binary code for basic instructions</summary>
 
 ### RISCV Instruction Set Architecture
 
@@ -256,12 +269,12 @@ The full 32 bits instruction is `0000000 00010 00001 001 01111 0110011`.
 
     * opcode for `sub`: 0110011
     * funct3 for `sub`: 000
-    * funct7 for `sub`: 0100000
+    * funct7 for `sub`: 0010000
     * rd: 00111 (r7)
     * rs1: 00001 (r1)
     * rs2: 00010 (r2)
 
-The full 32 bits instruction is `0100000 00010 00001 000 00111 0110011`.  
+The full 32 bits instruction is `0010000 00010 00001 000 00111 0110011`.  
 
 - **AND r8, r1, r3**  
     The AND is R-Type instruction. The base format is `and rd, rs1, rs2`. It performs a bitwise AND operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
@@ -393,7 +406,99 @@ The full 32 bits instruction is `0000000 00000 00000 000 01111 1100011`.
     * rs1: 00001 (r1)
 
 The full 32 bits instruction is `000000000010 00001 010 01101 0000011`.
+</details>
+
+<br>
+
+<details>
+<summary><mark>Task 3</mark>: To run functional simulation using iverilog and analyse the output using gtkwave</summary>
+
+## Task 3
+
+To emulate risc v architecture and test the instructions from Task 2, we will use the verilog code from https://github.com/vinayrayapati/rv32i.git
+
+First we will clone the repository to our local drive using `git clone https://github.com/vinayrayapati/rv32i.git`
+
+Then we will cd to the rv32i directory `cd ./rv32i`
+
+We can see in the <mark>iiitb_rv32i.v</mark> file that the instructions are coded in the verilog file.  
+
+![coded_instructions](./Task%203/coded_instructionspng.png)  
+
+Comparing it to the 32 bits binary codes obatained for the same instructions, we observe differences. For the instruction `add r6 r1 r2`, we got `0000000 00001 00010 000 00110 0110011`. Coverting it to hex, which is `32'h00110333` but in the verilog code, it is coded to `32'h02208300`.  
+
+|                     | CODED INSTRUCTIONS | RISC V GNU COMPILER |
+|---------------------|--------------------|---------------------|
+| ADD r6, r2, r1      |  32'h02208300      |  32'h00110333  |
+| SUB r7, r1, r2      |  32'h02209380      |  32'h202083B3  |
+| AND r8, r1, r3      |  32'h0230a400      |  32'h0030F433  |
+| OR r9, r2, r5       |  32'h02513480      |  32'h005164B3  |
+| XOR r10, r1, r4     |  32'h0240c500      |  32'h0040C533  |
+| SLT r11, r2, r4     |  32'h02415580      |  32'h004125B3  |
+| ADDI r12, r4, 5     |  32'h00520600      |  32'h00520613  |
+| SW r3, r1, 2        |  32'h00209181      |  32'h0030A123  |
+| SRL r16, r14, r2    |  32'h00271803      |  32'h00275833  |
+| BNE r0, r1, 20      |  32'h01409002      |  32'h00101A63  |
+| BEQ r0, r0, 15      |  32'h00f00002      |  32'h000007E3  |
+| LW r13, r1, 2       |  32'h00208681      |  32'h0020A683  |
+| SLL r15, r1, r2     |  32'h00208783      |  32'h002097B3  |  
+
+<br>  
+
+To analyse the output in gtkwave, we use the command  `iverilog -o iiitb_rv32i iiitb_rv32i.v iiitb_rv32i_tb.v` which compiles the codes for iiitb_rv32i.v
+
+![iverilogterminal](./Task%203/VirtualBox_vsdworkshop_31_05_2024_16_29_39.png)
+
+`./iiitb_rv32i` runs the simulation using the compiled codes.
+
+`gtkwave iiitb_rv32i.vcd`. This command generates a vcd file which contains the values from the simulation which is then opened in gtkwave where we can analyse the output waveforms.  
+
+### Analysing the outputs in GTKWAVE
+
+### <mark>add r6, r2, r1</mark>
+
+![add](./Task%203/add.png)  
+
+Here the first waveform is the clock. 2nd waveform is the instruction code in hex fetched from memory during the execution phase, hence the inputs of the instructions in reg A and reg B5 precedes the output and the instruction code waveforms in the snapshot. The 3rd and 4th waveforms are the input registers and the 5th wavefoem is the output of the operation.  
+
+Similarly, we analyse all the instructions executed sequentially.  
+
+### <mark>sub r7, r1, r2</mark>  
+
+![sub](./Task%203/sub.png)
+
+### <mark>and r8, r1, r3</mark>
+
+![and](./Task%203/and.png)  
+
+### <mark>or r9, r2, r5</mark>  
+
+![or](./Task%203/or.png)  
+
+### <mark>xor r10, r1, r4</mark>  
+
+![or](./Task%203/xor.png)  
+
+### <mark>slt r11, r2, r4</mark>  
+
+![slt](./Task%203/slt.png)  
+
+### <mark>addi r12, r4, 5</mark>  
+
+![addi](./Task%203/addi.png)  
+
+### <mark>sw r3, r1, 2</mark>  
+
+![sw](./Task%203/sw.png)  
+
+### <mark>beq r0, r0, 15</mark>
+
+![sw](./Task%203/beq.png)  
+
+### <mark>lw r13, r1, 2</mark>  
+
+![lw](./Task%203/lw.png)
 
 
 
-
+</details>
