@@ -240,7 +240,7 @@ J-Type instruction:
 
 **Identify various RISC-V instruction type (R, I, S, B, U, J) and exact 32-bit instruction code in the instruction type format for below RISC-V instructions**  
 
-- **ADD r6, r2, r1**  
+- **<mark>ADD r6, r2, r1</mark>**  
     The ADD is a R-Type instruction. The base format is `add rd, rs1, rs2`. It adds the value stored in rs1 and rs2, and stores it in rd. So, in above instruction-
 
     * opcode for `add`: 0110011
@@ -252,7 +252,7 @@ J-Type instruction:
 
     The full 32 bits instruction is `0000000 00001 00010 000 00110 0110011`
     
-- **SLL r15, r1, r2**  
+- **<mark>SLL r15, r1, r2</mark>**  
     The SLL (Shift Left Logical) is R-Type instruction. The base format is `sll rd, rs1, rs2`. It shifts the value stored in rs1 left by the number of bit positions specified in rs2, and stores the result in rd. So, in the above instruction:
 
     * opcode for `sll`: 0110011
@@ -264,7 +264,7 @@ J-Type instruction:
 
 The full 32 bits instruction is `0000000 00010 00001 001 01111 0110011`.  
 
-- **SUB r7, r1, r2**  
+- **<mark>SUB r7, r1, r2</mark>**  
     The SUB instruction is R-Type instruction. The base format is `sub rd, rs1, rs2`. It subtracts the value stored in `rs2` from the value stored in `rs1`, and stores the result in `rd`. So, in the above instruction:
 
     * opcode for `sub`: 0110011
@@ -276,7 +276,7 @@ The full 32 bits instruction is `0000000 00010 00001 001 01111 0110011`.
 
 The full 32 bits instruction is `0010000 00010 00001 000 00111 0110011`.  
 
-- **AND r8, r1, r3**  
+- **<mark>AND r8, r1, r3</mark>**  
     The AND is R-Type instruction. The base format is `and rd, rs1, rs2`. It performs a bitwise AND operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
 
     * opcode for and: 0110011
@@ -288,7 +288,7 @@ The full 32 bits instruction is `0010000 00010 00001 000 00111 0110011`.
     
     The full 32 bits instruction is `0000000 00011 00001 111 01000 0110011`.
 
-- **OR r9, r2, r5**  
+- **<mark>OR r9, r2, r5</mark>**  
     The OR is R-Type instruction. The base format is `or rd, rs1, rs2`. It performs a bitwise OR operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
 
     * opcode for `or`: 0110011
@@ -300,7 +300,7 @@ The full 32 bits instruction is `0010000 00010 00001 000 00111 0110011`.
 
 The full 32 bits instruction is `0000000 00101 00010 110 01001 0110011`  
 
-- **XOR r10, r1, r4**  
+- **<mark>XOR r10, r1, r4</mark>**  
     The XOR is R-Type instruction. The base format is `xor rd, rs1, rs2`. It performs a bitwise XOR operation on the values stored in `rs1` and `rs2`, and stores the result in `rd`. So, in the above instruction:
 
     * opcode for `xor`: 0110011
@@ -312,7 +312,7 @@ The full 32 bits instruction is `0000000 00101 00010 110 01001 0110011`
 
 The full 32 bits instruction is `0000000 00100 00001 100 01010 0110011`  
 
-- **SLT r11, r2, r4**  
+- **<mark>SLT r11, r2, r4</mark>**  
     The SLT (Set Less Than) is R-Type instruction. The base format is `slt rd, rs1, rs2`. It sets `rd` to 1 if the value in `rs1` is less than the value in `rs2`, otherwise it sets `rd` to 0. So, in the above instruction:
 
     * opcode for `slt`: 0110011
@@ -324,7 +324,7 @@ The full 32 bits instruction is `0000000 00100 00001 100 01010 0110011`
 
 The full 32 bits instruction is `0000000 00100 00010 010 01011 0110011`  
 
-- **ADDI r12, r4, 5**  
+- **<mark>ADDI r12, r4, 5</mark>**  
     The ADDI (Add Immediate) is an I-Type instruction. The base format is `addi rd, rs1, imm`. It adds the immediate value `imm` to the value in `rs1` and stores the result in `rd`. So, in the above instruction:
 
     * opcode for `addi`: 0010011
@@ -335,7 +335,7 @@ The full 32 bits instruction is `0000000 00100 00010 010 01011 0110011`
 
 The full 32 bits instruction is `000000000101 00100 000 01100 0010011`  
 
-- **SW r3, r1, 2**  
+- **<mark>SW r3, r1, 2</mark>**  
     The SW (Store Word) is S-Type instruction. The base format is `sw rs2, imm(rs1)`. It stores the value in `rs2` at the memory address obtained by adding the immediate value `imm` to the value in `rs1`. So, in the above instruction:
 
 * opcode for `sw`: 0100011
@@ -350,7 +350,7 @@ The 12-bit immediate value is split into two parts:
 
 The full 32 bits instruction is `0000000 00011 00001 010 00010 0100011`  
 
-- **SRL r16, r14, r2**  
+- **<mark>SRL r16, r14, r2</mark>**  
     The SRL (Shift Right Logical) is R-Type instruction. The base format is `srl rd, rs1, rs2`. It performs a logical right shift on the value in `rs1` by the number of positions specified in `rs2` and stores the result in `rd`. So, in the above instruction:
 
 * opcode for `srl`: 0110011
@@ -362,7 +362,7 @@ The full 32 bits instruction is `0000000 00011 00001 010 00010 0100011`
 
 The full 32 bits instruction is `0000000 00010 01110 101 10000 0110011`  
 
-- **BNE r0, r1, 20**  
+- **<mark>BNE r0, r1, 20</mark>**  
     The BNE (Branch if Not Equal) is a B-Type instruction. The base format is `bne rs1, rs2, imm`. It branches to the address offset by `imm` from the current PC if the values in `rs1` and `rs2` are not equal. So, in the above instruction:
 
     * opcode for `bne`: 1100011
@@ -379,7 +379,7 @@ Given `imm = 20` (decimal) which is `000000001010` (binary), the 12-bit immediat
 
 The full 32 bits instruction is `0000000 00001 00000 001 10100 1100011`.
 
-- **BEQ r0, r0, 15**  
+- **<mark>BEQ r0, r0, 15</mark>**  
     The BEQ (Branch if Equal) is B-Type instruction. The base format is `beq rs1, rs2, imm`. It branches to the address offset by `imm` from the current PC if the values in `rs1` and `rs2` are equal. So, in the above instruction:
 
     * opcode for `beq`: 1100011
@@ -396,7 +396,7 @@ Given `imm = 15` (decimal) which is `0000000001111` (binary), the 13-bit immedia
 
 The full 32 bits instruction is `0000000 00000 00000 000 01111 1100011`.  
 
-- **LW r13, r1, 2**  
+- **<mark>LW r13, r1, 2</mark>**  
     LW (Load Word) is I-Type instruction. The base format is `lw rd, offset(rs1)`. It loads a 32-bit word from memory, where the memory address is calculated by adding the `offset` to the value in `rs1`, and stores it in `rd`. So, in the above instruction:
 
     * opcode for `lw`: 0000011
@@ -499,6 +499,59 @@ Similarly, we analyse all the instructions executed sequentially.
 
 ![lw](./Task%203/lw.png)
 
+</details>  
+
+<br>  
+
+<br>  
+
+
+# Project  
+
+<details><summary><mark>Task 4</mark>: Project Overview</summary>  
+
+## Task 4  
+
+### 9's Complementer 
+
+This project aims to design and implement a 9's Complementer circuit using VSD Squadron mini, a Seven segment Display to display output and switches to give input. The input will be given in BCD format using 4 switches. 
+
+<mark>BCD (Binary coded Decimal)</mark> is form of decimal representation using binary numbers. Each decimal digit is grouped in 4 binary bits, or a nibble (half a byte) represents a decimal digit. For example, to represent <mark>7</mark> and <mark>17</mark> in BCD, it is written as `0111` and `0001 0111` respectively.  
+
+<mark>9's complement</mark> of any decimal number m is givent by <mark>(9's complement = 9-m)</mark>. For example, 9's complement of 7 and 17 are `9-7=2` and `99-17=82` respectively.
+
+<mark>7 segment display</mark> is made up of 7 led segments which are arranged in a 8 shape and any decimal number from 0 to 9 can be dislplayed by turning ON and OFF each individual LEDs.  
+
+![7segdisp](./Task%204/seven_seg_disp.png)
+
+### Components Required  
+
+1. VSD Squadron mini
+2. Seven Segment Display
+3. Switches
+4. Resistors
+5. Breadboard
+6. Jumper wires  
+
+### Pin Connections  
+
+|  Components         | VSD Squardron mini |
+|---------------------|:------------------:|
+| Switch 0            |  PC0      |
+| Switch 1            |  PC1      |
+| Switch 2            |  PC2      |
+| Switch 3            |  PC3      |
+| 7 segment LED A     |  PD0      |
+| 7 segment LED B     |  PD1      |
+| 7 segment LED C     |  PD2      |
+| 7 segment LED D     |  PD3      |
+| 7 segment LED E     |  PD4      |
+| 7 segment LED F     |  PD5      |
+| 7 segment LED G     |  PD6      |  
+
+<br> 
+
+# Under Construction...
 
 
 </details>
