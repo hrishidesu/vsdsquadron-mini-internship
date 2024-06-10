@@ -501,12 +501,10 @@ Similarly, we analyse all the instructions executed sequentially.
 
 </details>  
 
-<br>  
-
-<br>  
+<br>
 
 
-# Project  
+## Project  
 
 <details><summary><mark>Task 4</mark>: Project Overview</summary>  
 
@@ -549,7 +547,163 @@ This project aims to design and implement a 9's Complementer circuit using VSD S
 | 7 segment LED F     |  PD5      |
 | 7 segment LED G     |  PD6      |  
 
-<br> 
+<br>  
+
+
+### Working Code  
+
+```c
+#include <ch32v00x.h>
+#include <stdio.h>
+
+// Defining individual input pins for BCD (Port D)
+#define BCD_PIN_0 GPIO_Pin_2
+#define BCD_PIN_1 GPIO_Pin_3
+#define BCD_PIN_2 GPIO_Pin_4
+#define BCD_PIN_3 GPIO_Pin_5
+
+// Defining segment pins for the 7-segment display (Port C)
+#define SEG_A GPIO_Pin_0
+#define SEG_B GPIO_Pin_1
+#define SEG_C GPIO_Pin_2
+#define SEG_D GPIO_Pin_3
+#define SEG_E GPIO_Pin_4
+#define SEG_F GPIO_Pin_5
+#define SEG_G GPIO_Pin_6
+#define SEG_DP GPIO_Pin_7
+
+#define ALL_SEGMENTS (SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G | SEG_DP)
+
+// Defining LED combination for each digit
+#define NUM_0 (SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F)
+#define NUM_1 (SEG_B | SEG_C)
+#define NUM_2 (SEG_A | SEG_B | SEG_D | SEG_E | SEG_G)
+#define NUM_3 (SEG_A | SEG_B | SEG_C | SEG_D | SEG_G)
+#define NUM_4 (SEG_B | SEG_C | SEG_F | SEG_G)
+#define NUM_5 (SEG_A | SEG_C | SEG_D | SEG_F | SEG_G)
+#define NUM_6 (SEG_A | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G)
+#define NUM_7 (SEG_A | SEG_B | SEG_C)
+#define NUM_8 (SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G)
+#define NUM_9 (SEG_A | SEG_B | SEG_C | SEG_D | SEG_F | SEG_G)
+#define DOT   (SEG_DP)
+
+//void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+//void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+
+void Delay_Init(void);
+void Delay_Ms(uint32_t n);
+
+//initializing output pins
+void GPIO_Init_Segment(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = ALL_SEGMENTS;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+} 
+
+//initializing input pins
+void GPIO_Init_BCD_Input(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = BCD_PIN_0 | BCD_PIN_1 | BCD_PIN_2 | BCD_PIN_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Input with pull-up
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+} 
+
+//assigning numbers to each digit given in input
+void display_digit(uint8_t digit) {
+    uint16_t segment_pins = 0;
+
+    switch (digit) {
+        case 0: segment_pins = NUM_0; 
+        break;
+        case 1: segment_pins = NUM_1; 
+        break;
+        case 2: segment_pins = NUM_2; 
+        break;
+        case 3: segment_pins = NUM_3; 
+        break;
+        case 4: segment_pins = NUM_4; 
+        break;
+        case 5: segment_pins = NUM_5; 
+        break;
+        case 6: segment_pins = NUM_6; 
+        break;
+        case 7: segment_pins = NUM_7; 
+        break;
+        case 8: segment_pins = NUM_8; 
+        break;
+        case 9: segment_pins = NUM_9; 
+        break;
+        default: segment_pins = NUM_0; 
+        break;
+    }
+
+    GPIO_ResetBits(GPIOC, ALL_SEGMENTS);
+    GPIO_SetBits(GPIOC, segment_pins);
+}
+
+//Display Dot when invalid BCD code is entered
+void display_dot(void) {
+    GPIO_ResetBits(GPIOC, ALL_SEGMENTS);
+    GPIO_SetBits(GPIOC, SEG_DP);
+}
+
+
+//main code
+int main(void) {
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	SystemCoreClockUpdate();
+    GPIO_Init_Segment();
+    GPIO_Init_BCD_Input();
+    Delay_Init();
+
+
+    //Fetch input from the GPIO pins
+    uint8_t read_BCD(void) {
+        uint8_t bcd_value = 0;
+        if (GPIO_ReadInputDataBit(GPIOD, BCD_PIN_0)) bcd_value |= 0x01;
+        if (GPIO_ReadInputDataBit(GPIOD, BCD_PIN_1)) bcd_value |= 0x02;
+        if (GPIO_ReadInputDataBit(GPIOD, BCD_PIN_2)) bcd_value |= 0x04;
+        if (GPIO_ReadInputDataBit(GPIOD, BCD_PIN_3)) bcd_value |= 0x08;
+        return bcd_value;
+    }
+
+    uint8_t calculate_nines_complement(uint8_t bcd) {
+        if (bcd > 9) {
+            return 0xFF; // if greater than 9, invalid BCD code
+        }
+        return 9 - bcd; //9's complement
+    }
+
+
+    //while loop to read input and calculate output continuously
+    while (1) {
+        uint8_t bcd = read_BCD();
+        uint8_t complement = calculate_nines_complement(bcd);
+
+        if (complement == 0xFF) {
+            display_dot(); //function call to display dot when invalid BCD code is entered
+        } else {
+            display_digit(complement); //function call to display 9's complement
+        }
+
+        Delay_Ms(500); //adding delay to avoid rapid polling
+    }
+
+    return 0;
+}
+
+
+```  
+
+### Project Video  
+
+![project_video](./Task%204/vsd_nines_comp.mp4)
 
 # Under Construction...
 
