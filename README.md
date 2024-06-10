@@ -703,9 +703,10 @@ int main(void) {
 
 ### Project Video   
 
-[project video](./Task%204/vsd_nines_comp.mov)
 
+https://github.com/hrishidesu/vsdsquadron-mini-internship/assets/167601034/db80b191-1c68-454b-a0eb-a2293865eba0  
 
+<!--[project video](./Task%204/vsd_nines_comp.mov)-->
 
 <!--<video src="./Task 4/vsd_nines_comp.mp4" width="560" height="315"/>-->
 
@@ -716,6 +717,3 @@ int main(void) {
 
 
 </details>
-
-https://github.com/hrishidesu/vsdsquadron-mini-internship/assets/167601034/db80b191-1c68-454b-a0eb-a2293865eba0
-
