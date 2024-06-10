@@ -703,9 +703,9 @@ int main(void) {
 
 ### Project Video   
 
-<!--[project video](./Task%204/vsd_nines_comp.mp4)-->
+[project video](./Task%204/vsd_nines_comp.mp4)
 
-<video src="./Task 4/vsd_nines_comp.mp4" width="560" height="315"/>  
+<!--<video src="./Task 4/vsd_nines_comp.mp4" width="560" height="315"/>-->
 
 <!--[![Project video](https://img.youtube.com/vi/3DUqD5rOVUM/0.jpg)](https://www.youtube.com/watch?v=3DUqD5rOVUM)-->
 
