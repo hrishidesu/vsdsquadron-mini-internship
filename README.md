@@ -703,9 +703,7 @@ int main(void) {
 
 ### Project Video   
 
-<iframe width="560" height="315" 
-src="https://youtu.be/3DUqD5rOVUM" frameborder="0"
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/3DUqD5rOVUM" width="560" height="315"/>
 
 # Under Construction...
 
