@@ -535,23 +535,24 @@ This project aims to design and implement a 9's Complementer circuit using VSD S
 
 |  Components         | VSD Squardron mini |
 |---------------------|:------------------:|
-| Switch 0            |  PC0      |
-| Switch 1            |  PC1      |
-| Switch 2            |  PC2      |
-| Switch 3            |  PC3      |
-| 7 segment LED A     |  PD0      |
-| 7 segment LED B     |  PD1      |
-| 7 segment LED C     |  PD2      |
-| 7 segment LED D     |  PD3      |
-| 7 segment LED E     |  PD4      |
-| 7 segment LED F     |  PD5      |
-| 7 segment LED G     |  PD6      |  
+| Switch 0            |  PD0      |
+| Switch 1            |  PD1      |
+| Switch 2            |  PD2      |
+| Switch 3            |  PD3      |
+| 7 segment LED A     |  PC0      |
+| 7 segment LED B     |  PC1      |
+| 7 segment LED C     |  PC2      |
+| 7 segment LED D     |  PC3      |
+| 7 segment LED E     |  PC4      |
+| 7 segment LED F     |  PC5      |
+| 7 segment LED G     |  PC6      |
+| 7 segment LED DOT   |  PC7      |
 
 <br>  
 
-### Circuit Diagram  
+### Pinout Diagram  
 
-![Circuit Diagram](./Task%204/vsd_nine_comp_ckt.png)
+![Pinout Diagram](./Task%204/vsd.BMP)
 
 
 ### Working Code  
@@ -705,6 +706,11 @@ int main(void) {
 
 ```  
 
+### Circuit Diagram  
+
+![Circuit Diagram](./Task%204/vsd_nine_comp_ckt.png)
+
+
 ### Project Video   
 
 
@@ -717,7 +723,6 @@ https://github.com/hrishidesu/vsdsquadron-mini-internship/assets/167601034/db80b
 <!--[![Project video](https://img.youtube.com/vi/3DUqD5rOVUM/0.jpg)](https://www.youtube.com/watch?v=3DUqD5rOVUM)-->
 
 
-# Under Construction...
+</details>  
 
-
-</details>
+## Project Completed
