@@ -549,6 +549,10 @@ This project aims to design and implement a 9's Complementer circuit using VSD S
 
 <br>  
 
+### Circuit Diagram  
+
+![Circuit Diagram](./Task%204/vsd_nine_comp_ckt.png)
+
 
 ### Working Code  
 
